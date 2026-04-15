@@ -53,6 +53,7 @@ Acesse os arquivos contidos na pasta prompts. Lá você encontrará a sequência
 
 - Vá resolvendo cada um dos exercícios (arquivos `.md`) em ordem crescente.
 - **Relatório de progresso:** Em cada exercício, você deverá escrever **detalhadamente** os resultados que a IA gerou e a sua avaliação sobre as respostas.
+- **Registro de problemas:** Caso você tenha algum problema em alguma etapa da atividade, é necessário adicionar detalhadamente no arquivo a ser entregue citando: em qual parte ocorreu, qual foi o problema, se conseguiu resolver ou não, e como resolveu.
 
 ### 5. Análise Técnica e Qualidade
 
