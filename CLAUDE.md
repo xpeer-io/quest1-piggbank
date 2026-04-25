@@ -32,7 +32,7 @@ npm run build     # build de produção
 
 ## Spec Docs
 
-- Template: `templates/spec-doc.md`
+- Template: `templates/spec-do`c.md`
 - Destino: `docs/specs/[ticket-id]-[slug].md`
 
 ## Testes
