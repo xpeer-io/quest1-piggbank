@@ -14,3 +14,9 @@ export async function getMetrics(
   const transactions = await getTransactions(filters);
   return computeMetrics(transactions);
 }
+
+export async function addTransaction(
+  transaction: Transaction
+): Promise<void> {
+  mockTransactions.unshift(transaction);
+}

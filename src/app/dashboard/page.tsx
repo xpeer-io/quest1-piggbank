@@ -1,5 +1,6 @@
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
+import { NewTransactionButton } from "@/components/dashboard/NewTransactionButton";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { getDefaultDateRange } from "@/lib/date";
 
@@ -45,9 +46,12 @@ export default async function DashboardPage() {
         </div>
 
         <div>
-          <h2 className="mb-4 text-base font-medium text-foreground">
-            Transações recentes
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-medium text-foreground">
+              Transações recentes
+            </h2>
+            <NewTransactionButton />
+          </div>
           <TransactionsTable transactions={transactions} />
         </div>
       </main>
