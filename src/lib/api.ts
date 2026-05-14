@@ -18,5 +18,23 @@ export async function getMetrics(
 export async function addTransaction(
   transaction: Transaction
 ): Promise<void> {
-  mockTransactions.unshift(transaction);
+  if (typeof window === "undefined") {
+    mockTransactions.unshift(transaction);
+    return;
+  }
+
+  const response = await fetch("/api/transactions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...transaction,
+      date: transaction.date.toISOString(),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao salvar transação");
+  }
 }

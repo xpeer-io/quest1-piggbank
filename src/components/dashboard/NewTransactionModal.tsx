@@ -44,7 +44,9 @@ export function NewTransactionModal({
         onClose();
     };
 
- const handleSave = async () => {
+ const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (!isValid || !date || !category) {
         setErrorMessage("Preencha todos os campos corretamente");
         return;
