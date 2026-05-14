@@ -3,6 +3,7 @@ import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
 import { NewTransactionButton } from "@/components/dashboard/NewTransactionButton";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { getDefaultDateRange } from "@/lib/date";
+import { ExportCsvButton } from "@/components/dashboard/ExportCsvButton";
 
 export default async function DashboardPage() {
   const filters = { dateRange: getDefaultDateRange() };
@@ -50,7 +51,10 @@ export default async function DashboardPage() {
             <h2 className="text-base font-medium text-foreground">
               Transações recentes
             </h2>
-            <NewTransactionButton />
+            <div className="flex items-center gap-2">
+              <ExportCsvButton transactions={transactions} />
+              <NewTransactionButton />
+            </div>
           </div>
           <TransactionsTable transactions={transactions} />
         </div>
