@@ -13,36 +13,38 @@ interface ExportCSVProps {
 export function ExportCSV({ transactions }: ExportCSVProps) {
   const [isExporting, setIsExporting] = useState(false);
 
+  /**
+   * Orchestrates the CSV export process:
+   * 1. Sets loading state
+   * 2. Formats data
+   * 3. Triggers browser download
+   * 4. Cleans up resources
+   */
   const handleExport = async () => {
     setIsExporting(true);
     try {
-      // Pequeno delay para feedback visual do loading
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      // Visual feedback delay
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      // 1. Formatar conteúdo CSV via utility
-      const csvContent = formatTransactionsToCSV(transactions);
+      const csvData = formatTransactionsToCSV(transactions);
+      const csvBlob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+      const downloadUrl = URL.createObjectURL(csvBlob);
 
-      // 2. Criar Blob e URL
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-
-      // 3. Trigger download
-      const link = document.createElement("a");
-      const filename = generateExportFilename(new Date());
+      const downloadLink = document.createElement("a");
+      const fileName = generateExportFilename(new Date());
       
-      link.setAttribute("href", url);
-      link.setAttribute("download", filename);
-      link.style.visibility = "hidden";
+      downloadLink.setAttribute("href", downloadUrl);
+      downloadLink.setAttribute("download", fileName);
+      downloadLink.style.display = "none";
       
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
       
-      // 4. Limpar URL
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Erro ao exportar CSV:", error);
-      alert("Ocorreu um erro ao gerar o arquivo CSV. Por favor, tente novamente.");
+      URL.revokeObjectURL(downloadUrl);
+    } catch (err) {
+      console.error("Export failed:", err);
+      alert("Erro ao exportar: Não foi possível gerar o arquivo CSV.");
     } finally {
       setIsExporting(false);
     }
