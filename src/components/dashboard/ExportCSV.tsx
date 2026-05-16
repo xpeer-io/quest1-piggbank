@@ -1,6 +1,7 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { useState } from "react";
+import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Transaction } from "@/types";
 import { formatTransactionsToCSV, generateExportFilename } from "@/lib/csv";
@@ -10,8 +11,14 @@ interface ExportCSVProps {
 }
 
 export function ExportCSV({ transactions }: ExportCSVProps) {
-  const handleExport = () => {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    setIsExporting(true);
     try {
+      // Pequeno delay para feedback visual do loading
+      await new Promise((resolve) => setTimeout(resolve, 600));
+
       // 1. Formatar conteúdo CSV via utility
       const csvContent = formatTransactionsToCSV(transactions);
 
@@ -36,13 +43,25 @@ export function ExportCSV({ transactions }: ExportCSVProps) {
     } catch (error) {
       console.error("Erro ao exportar CSV:", error);
       alert("Ocorreu um erro ao gerar o arquivo CSV. Por favor, tente novamente.");
+    } finally {
+      setIsExporting(false);
     }
   };
 
   return (
-    <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
-      <Download className="size-4" />
-      Exportar CSV
+    <Button 
+      variant="outline" 
+      size="sm" 
+      onClick={handleExport} 
+      className="gap-2"
+      disabled={isExporting}
+    >
+      {isExporting ? (
+        <Loader2 className="size-4 animate-spin" />
+      ) : (
+        <Download className="size-4" />
+      )}
+      {isExporting ? "Exportando..." : "Exportar CSV"}
     </Button>
   );
 }
