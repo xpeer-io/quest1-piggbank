@@ -3,9 +3,13 @@ import { computeMetrics } from "@/lib/metrics";
 import type { DashboardFilters, MetricSummary, Transaction } from "@/types";
 
 export async function getTransactions(
-  _filters: DashboardFilters,
+  filters: DashboardFilters
 ): Promise<Transaction[]> {
-  return mockTransactions;
+  const { from, to } = filters.dateRange;
+
+  return mockTransactions.filter((transaction) => {
+    return transaction.date >= from && transaction.date <= to;
+  });
 }
 
 export async function getMetrics(
