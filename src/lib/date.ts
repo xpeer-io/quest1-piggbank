@@ -1,11 +1,13 @@
 import {
   format,
+  parseISO,
   subDays,
   isAfter,
   isBefore,
   differenceInMonths,
   startOfDay,
   endOfDay,
+  isValid as isValidDate,
 } from "date-fns";
 import type { DateRange } from "@/types";
 
@@ -21,10 +23,27 @@ export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
 }
 
+export function parseUrlDate(value: string): Date | null {
+  const parsed = parseISO(value);
+  return isValidDate(parsed) ? parsed : null;
+}
+
+export function getToday(): Date {
+  return startOfDay(new Date());
+}
+
+export function getStartOfDay(date: Date): Date {
+  return startOfDay(date);
+}
+
+export function getEndOfDay(date: Date): Date {
+  return endOfDay(date);
+}
+
 export function getDefaultDateRange(): DateRange {
   return {
-    from: startOfDay(subDays(new Date(), 30)),
-    to: endOfDay(new Date()),
+    from: getStartOfDay(subDays(new Date(), 30)),
+    to: getEndOfDay(new Date()),
   };
 }
 
