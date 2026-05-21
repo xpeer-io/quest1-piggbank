@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "fed4bf539a8fdb44",
+    "type": "split",
+    "children": [
+      {
+        "id": "e93f5c3e04507100",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9f1c33c5f1b1b1f1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Relatorio 2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Relatorio 2"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "eac3090f964c716a",
+    "type": "split",
+    "children": [
+      {
+        "id": "2921e2d37d68fc1b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ef8b58154b58b31b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "0c18d32b686ef6e7",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "ea3620d9708c1f3c",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "703cefdf4223a6d1",
+    "type": "split",
+    "children": [
+      {
+        "id": "8d2164afa8245789",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9a057a20574ce893",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "node_modules/next/dist/docs/01-app/04-glossary.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos para 04-glossary"
+            }
+          },
+          {
+            "id": "8247d9c00f7aa97e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "node_modules/next/dist/docs/01-app/04-glossary.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída para 04-glossary"
+            }
+          },
+          {
+            "id": "26f34d86efd705a0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "df79904a1d0bfd39",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "7598a15d9c9b5950",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "node_modules/next/dist/docs/01-app/04-glossary.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário de 04-glossary"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "9f1c33c5f1b1b1f1",
+  "lastOpenFiles": [
+    "Captura de tela de 2026-05-21 15-21-03.png",
+    "Captura de tela de 2026-05-16 11-42-38.png",
+    "Captura de tela de 2026-05-21 14-54-04.png",
+    "Captura de tela de 2026-05-21 14-53-18.png",
+    "Captura de tela de 2026-05-21 14-52-36.png",
+    "Captura de tela de 2026-05-21 14-52-02.png",
+    "Captura de tela de 2026-05-21 14-51-47.png",
+    "Captura de tela de 2026-05-21 14-51-29.png",
+    "Captura de tela de 2026-05-21 14-50-45.png",
+    "node_modules/next/dist/docs/01-app/04-glossary.md",
+    "node_modules/ms/license.md",
+    "docs/Relatório 2.md",
+    "docs/CONTEXT.md",
+    "node_modules/micromatch/node_modules/picomatch/README.md",
+    "docs/pages/building-your-application/routing/custom-document.md",
+    "docs/pages/building-your-application/routing",
+    "docs/pages/building-your-application",
+    "docs/specs/piggbank-filtro-periodo.md",
+    "docs/prompts-exercicios.md",
+    "QUEST.md",
+    "README.md",
+    "QUEST2.md",
+    "docs/prompts/ex4-passo-2-review-com-spec.md",
+    "docs/prompts/ex4-passo-1-review-vibe.md",
+    "node_modules/dotenv/README-es.md",
+    "docs/pages/api-reference/functions/use-router.md",
+    "docs/pages/api-reference/functions",
+    "docs/pages/api-reference",
+    "docs/pages"
+  ]
+}
