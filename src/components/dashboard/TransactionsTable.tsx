@@ -1,11 +1,17 @@
 import type { Transaction } from "@/types";
-import { formatDisplayDate } from "@/lib/date";
+import { TransactionRow } from "@/components/dashboard/TransactionRow";
 
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onEdit?: (transaction: Transaction) => void;
+  onDelete?: (transaction: Transaction) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({
+  transactions,
+  onEdit,
+  onDelete,
+}: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -31,39 +37,21 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
             </th>
+            {(onEdit || onDelete) && (
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Ações
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
           {transactions.map((transaction) => (
-            <tr
+            <TransactionRow
               key={transaction.id}
-              className="transition-colors hover:bg-accent/30"
-            >
-              <td className="px-4 py-3 text-muted-foreground">
-                {formatDisplayDate(transaction.date)}
-              </td>
-              <td className="px-4 py-3 text-foreground">
-                {transaction.description}
-              </td>
-              <td className="px-4 py-3">
-                <span className="rounded-md bg-accent px-2 py-0.5 text-xs text-accent-foreground">
-                  {transaction.category}
-                </span>
-              </td>
-              <td
-                className={`px-4 py-3 text-right font-medium ${
-                  transaction.type === "income"
-                    ? "text-emerald-400"
-                    : "text-red-400"
-                }`}
-              >
-                {transaction.type === "income" ? "+" : "-"}
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(Math.abs(transaction.amount))}
-              </td>
-            </tr>
+              transaction={transaction}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </tbody>
       </table>

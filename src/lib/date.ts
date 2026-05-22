@@ -21,6 +21,10 @@ export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
 }
 
+export function formatDateInputValue(date: Date): string {
+  return format(date, "yyyy-MM-dd");
+}
+
 export function getDefaultDateRange(): DateRange {
   return {
     from: startOfDay(subDays(new Date(), 30)),

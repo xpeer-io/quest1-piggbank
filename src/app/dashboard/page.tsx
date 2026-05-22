@@ -1,6 +1,7 @@
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import TransactionsTableClient from "@/components/dashboard/TransactionsTableClient";
 import { getMetrics, getTransactions } from "@/lib/api";
+import { serializeTransaction } from "@/lib/transactionApi";
 import { getDefaultDateRange } from "@/lib/date";
 
 export default async function DashboardPage() {
@@ -49,7 +50,7 @@ export default async function DashboardPage() {
             Transações recentes
           </h2>
           <TransactionsTableClient
-            initialTransactions={transactions.map((t) => ({ ...t, date: t.date.toISOString() }))}
+            initialTransactions={transactions.map(serializeTransaction)}
           />
         </div>
       </main>
