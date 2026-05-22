@@ -1,5 +1,5 @@
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
-import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
+import TransactionsTableClient from "@/components/dashboard/TransactionsTableClient";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { getDefaultDateRange } from "@/lib/date";
 
@@ -48,7 +48,9 @@ export default async function DashboardPage() {
           <h2 className="mb-4 text-base font-medium text-foreground">
             Transações recentes
           </h2>
-          <TransactionsTable transactions={transactions} />
+          <TransactionsTableClient
+            initialTransactions={transactions.map((t) => ({ ...t, date: t.date.toISOString() }))}
+          />
         </div>
       </main>
     </div>
