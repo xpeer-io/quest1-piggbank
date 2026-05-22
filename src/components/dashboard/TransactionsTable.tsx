@@ -1,11 +1,14 @@
 import type { Transaction } from "@/types";
 import { formatDisplayDate } from "@/lib/date";
+import { Button } from "@/components/ui/button";
 
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onDelete?: (id: string) => void;
+  onEdit?: (t: Transaction) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({ transactions, onDelete, onEdit }: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -30,6 +33,9 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             </th>
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              
             </th>
           </tr>
         </thead>
@@ -62,6 +68,28 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   style: "currency",
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
+              </td>
+              <td className="px-4 py-3 text-right flex items-center justify-end gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onEdit?.(transaction)}
+                >
+                  Editar
+                </Button>
+
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => {
+                    if (!onDelete) return;
+                    if (confirm("Tem certeza que deseja excluir esta transação?")) {
+                      onDelete(transaction.id);
+                    }
+                  }}
+                >
+                  Excluir
+                </Button>
               </td>
             </tr>
           ))}
