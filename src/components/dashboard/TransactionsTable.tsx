@@ -1,11 +1,13 @@
 import type { Transaction } from "@/types";
-import { formatDisplayDate } from "@/lib/date";
+import { formatCurrency, formatDisplayDate } from "@/lib/date";
 
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onDelete?: (transactionId: string) => void;
+  onEdit?: (transaction: Transaction) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({ transactions, onDelete, onEdit }: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -30,6 +32,9 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             </th>
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Ações
             </th>
           </tr>
         </thead>
@@ -58,10 +63,27 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                 }`}
               >
                 {transaction.type === "income" ? "+" : "-"}
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(Math.abs(transaction.amount))}
+                {formatCurrency(Math.abs(transaction.amount))}
+              </td>
+              <td className="px-4 py-3 text-right space-x-3">
+                {onEdit ? (
+                  <button
+                    type="button"
+                    className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    onClick={() => onEdit(transaction)}
+                  >
+                    Editar
+                  </button>
+                ) : null}
+                {onDelete ? (
+                  <button
+                    type="button"
+                    className="text-sm font-medium text-red-500 transition hover:text-red-600"
+                    onClick={() => onDelete(transaction.id)}
+                  >
+                    Excluir
+                  </button>
+                ) : null}
               </td>
             </tr>
           ))}

@@ -1,5 +1,5 @@
-import { describe, it, expect, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, expect, afterEach, vi } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 
 afterEach(cleanup);
 import { TransactionsTable } from "./TransactionsTable";
@@ -54,5 +54,33 @@ describe("TransactionsTable", () => {
   it("does not render empty state when there are transactions", () => {
     render(<TransactionsTable transactions={[makeTransaction()]} />);
     expect(screen.queryByText(/Nenhuma transação encontrada/)).toBeNull();
+  });
+
+  it("calls onDelete when Excluir is clicked", () => {
+    const handleDelete = vi.fn();
+    render(
+      <TransactionsTable
+        transactions={[makeTransaction({ id: "1", description: "Receita A" })]}
+        onDelete={handleDelete}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /Excluir/i }));
+    expect(handleDelete).toHaveBeenCalledWith("1");
+  });
+
+  it("calls onEdit when Editar is clicked", () => {
+    const handleEdit = vi.fn();
+    const transaction = makeTransaction({ id: "1", description: "Receita A" });
+
+    render(
+      <TransactionsTable
+        transactions={[transaction]}
+        onEdit={handleEdit}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /Editar/i }));
+    expect(handleEdit).toHaveBeenCalledWith(transaction);
   });
 });

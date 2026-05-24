@@ -39,3 +39,10 @@ export function exceedsMaxRange(range: DateRange): boolean {
 export function isDateInFuture(date: Date): boolean {
   return isAfter(date, new Date());
 }
+
+export function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
+}
