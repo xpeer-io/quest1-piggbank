@@ -6,7 +6,7 @@ export const mockTransactions: Transaction[] = [
     description: "Assinatura cliente Acme Corp",
     amount: 12000,
     type: "income",
-    date: new Date("2026-04-10"),
+    date: new Date("2026-05-20"),
     category: "Assinatura",
   },
   {
@@ -14,7 +14,7 @@ export const mockTransactions: Transaction[] = [
     description: "AWS — infraestrutura",
     amount: 2800,
     type: "expense",
-    date: new Date("2026-04-08"),
+    date: new Date("2026-05-18"),
     category: "Infraestrutura",
   },
   {
@@ -22,7 +22,7 @@ export const mockTransactions: Transaction[] = [
     description: "Consultoria design",
     amount: 4500,
     type: "expense",
-    date: new Date("2026-04-05"),
+    date: new Date("2026-05-15"),
     category: "Serviços",
   },
   {
@@ -30,7 +30,7 @@ export const mockTransactions: Transaction[] = [
     description: "Assinatura cliente Beta Ltda",
     amount: 8500,
     type: "income",
-    date: new Date("2026-04-03"),
+    date: new Date("2026-05-13"),
     category: "Assinatura",
   },
   {
@@ -38,7 +38,7 @@ export const mockTransactions: Transaction[] = [
     description: "Licença ferramentas dev",
     amount: 1800,
     type: "expense",
-    date: new Date("2026-03-28"),
+    date: new Date("2026-05-08"),
     category: "Software",
   },
   {
@@ -46,15 +46,15 @@ export const mockTransactions: Transaction[] = [
     description: "Projeto pontual — Startup XYZ",
     amount: 18400,
     type: "income",
-    date: new Date("2026-03-24"),
+    date: new Date("2026-05-04"),
     category: "Projeto",
   },
   {
     id: "7",
-    description: "Folha de pagamento — março",
+    description: "Folha de pagamento — maio",
     amount: 22400,
     type: "expense",
-    date: new Date("2026-03-20"),
+    date: new Date("2026-04-30"),
     category: "RH",
   },
   {
@@ -62,7 +62,7 @@ export const mockTransactions: Transaction[] = [
     description: "Assinatura cliente Gama S.A.",
     amount: 9300,
     type: "income",
-    date: new Date("2026-03-14"),
+    date: new Date("2026-04-24"),
     category: "Assinatura",
   },
 ];
