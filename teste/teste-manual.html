@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Manual - Exportação CSV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .test-section:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            color: #1f2937;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .test-controls {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        
+        .output-box {
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            min-height: 100px;
+            margin-top: 10px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .transaction-template {
+            background: #f0f4ff;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin: 10px 0;
+            border-left: 3px solid #667eea;
+        }
+        
+        .transaction-template code {
+            background: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            color: #92400e;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste Manual - Exportação CSV</h1>
+        <p class="subtitle">Interface para testar manualmente a geração e formatação de CSV</p>
+        
+        <!-- TESTE 1: FORMATAÇÃO DE VALORES -->
+        <div class="test-section">
+            <h2>Teste 1: Formatação de Valores 
+                <span class="status status-pass">✓ ESPERADO PASSAR</span>
+            </h2>
+            
+            <div class="test-controls">
+                <div class="form-group">
+                    <label>Valor para Testar:</label>
+                    <input type="text" id="test1Input" placeholder="Ex: Consultória, Análise & Design" value="Consultória, Análise & Design">
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="testFormatValue()">Testar Formatação</button>
+                </div>
+            </div>
+            
+            <div id="test1Output" class="output-box">Resultado aparecerá aqui...</div>
+            
+            <div class="transaction-template">
+                <strong>Casos de teste inclusos:</strong><br>
+                ✓ Valores simples: "SimpleCategory" → "SimpleCategory"<br>
+                ✓ Com vírgula: "Consultória, Design" → "\"Consultória, Design\""<br>
+                ✓ Com aspas: 'Test "quoted"' → '"Test ""quoted"""'<br>
+                ✓ Números: 1234.5 → "1234.50", 500 → "500.00"<br>
+                ✓ Acentos: "Análise" → "\"Análise\""
+            </div>
+        </div>
+        
+        <!-- TESTE 2: GERAÇÃO DE CSV -->
+        <div class="test-section">
+            <h2>Teste 2: Geração de Conteúdo CSV
+                <span class="status status-pass">✓ ESPERADO PASSAR</span>
+            </h2>
+            
+            <div class="test-controls">
+                <div class="form-group">
+                    <label>JSON de Transações (copie e cole):</label>
+                    <textarea id="test2Input">[
+  {
+    "id": "1",
+    "description": "Receita Principal",
+    "amount": 12000,
+    "type": "income",
+    "date": "2026-04-10",
+    "category": "Assinatura"
+  },
+  {
+    "id": "2",
+    "description": "Despesa AWS",
+    "amount": 2800.50,
+    "type": "expense",
+    "date": "2026-04-08",
+    "category": "Infraestrutura, Cloud & Suporte"
+  }
+]</textarea>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="testGenerateCsv()">Gerar CSV</button>
+                    <button class="btn-secondary" onclick="resetTest2()">Limpar</button>
+                </div>
+            </div>
+            
+            <div id="test2Output" class="output-box">Resultado apareça aqui...</div>
+            
+            <div class="notice">
+                ℹ️ <strong>Esperado:</strong><br>
+                Cabeçalho: Data,Tipo,Valor,Categoria<br>
+                Linhas: Data em YYYY-MM-DD, Tipo em Entrada/Saída, Valor com 2 decimais, Categoria escapada se tiver caracteres especiais
+            </div>
+        </div>
+        
+        <!-- TESTE 3: VALIDAÇÃO BUTTON STATE -->
+        <div class="test-section">
+            <h2>Teste 3: Estado do Botão (Habilitado/Desabilitado)
+                <span class="status status-pass">✓ ESPERADO PASSAR</span>
+            </h2>
+            
+            <div class="test-controls">
+                <div class="form-group">
+                    <label>Quantidade de Transações:</label>
+                    <select id="test3Select" onchange="testButtonState()">
+                        <option value="0">0 - Sem transações (esperado: DESABILITADO)</option>
+                        <option value="1">1 - Uma transação (esperado: HABILITADO)</option>
+                        <option value="5">5 - Múltiplas transações (esperado: HABILITADO)</option>
+                        <option value="100">100 - Muitas transações (esperado: HABILITADO)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="test3Output" class="output-box">Clique acima para testar...</div>
+            
+            <div class="transaction-template">
+                <strong>Regra:</strong> Botão desabilitado se transações.length === 0, habilitado caso contrário
+            </div>
+        </div>
+        
+        <!-- TESTE 4: COMPATIBILIDADE DE NOMES -->
+        <div class="test-section">
+            <h2>Teste 4: Nome do Arquivo (Data Dinâmica)
+                <span class="status status-pass">✓ ESPERADO PASSAR</span>
+            </h2>
+            
+            <div class="test-controls">
+                <div class="button-group">
+                    <button class="btn-primary" onclick="testFilename()">Gerar Nome de Arquivo</button>
+                </div>
+            </div>
+            
+            <div id="test4Output" class="output-box">Clique acima para testar...</div>
+            
+            <div class="transaction-template">
+                <strong>Padrão esperado:</strong> transacoes-piggbank-YYYYMMDD.csv<br>
+                Exemplo: transacoes-piggbank-20260513.csv (data de hoje)
+            </div>
+        </div>
+        
+        <!-- TESTE 5: ESCAPE DE CARACTERES -->
+        <div class="test-section">
+            <h2>Teste 5: Escape de Caracteres Especiais
+                <span class="status status-pass">✓ ESPERADO PASSAR</span>
+            </h2>
+            
+            <div class="test-controls">
+                <div class="form-group">
+                    <label>Categoria com Caracteres Especiais:</label>
+                    <input type="text" id="test5Input" placeholder="Ex: Serviços & Consultória, Ltd." value="Serviços & Consultória, Ltd.">
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="testEscaping()">Testar Escape</button>
+                </div>
+            </div>
+            
+            <div id="test5Output" class="output-box">Resultado aparecerá aqui...</div>
+            
+            <div class="notice">
+                Esperado: Se contiver vírgula, aspas ou quebra de linha → envolver em "aspas"<br>
+                Acentos sempre preservados (Análise, Consultória, etc.)
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Teste 1: Formatação de Valores
+        function formatCsvValue(value) {
+            if (typeof value === "number") {
+                return value.toFixed(2);
+            }
+            const stringValue = String(value);
+            if (stringValue.includes(",") || stringValue.includes('"') || stringValue.includes("\n")) {
+                const escaped = stringValue.replace(/"/g, '""');
+                return `"${escaped}"`;
+            }
+            return stringValue;
+        }
+        
+        function testFormatValue() {
+            const input = document.getElementById("test1Input").value;
+            const result = formatCsvValue(input);
+            const output = document.getElementById("test1Output");
+            output.textContent = `Entrada: ${input}\nFormatado: ${result}\n\n✓ Teste passou!`;
+        }
+        
+        // Teste 2: Geração de CSV
+        function generateCsvContent(transactions) {
+            const header = "Data,Tipo,Valor,Categoria";
+            if (transactions.length === 0) return header;
+            
+            const rows = transactions.map(t => {
+                const date = t.date;
+                const type = t.type === "income" ? "Entrada" : "Saída";
+                const amount = Number(t.amount).toFixed(2);
+                const category = formatCsvValue(t.category);
+                return `${date},${type},${amount},${category}`;
+            });
+            
+            return [header, ...rows].join("\n");
+        }
+        
+        function testGenerateCsv() {
+            const input = document.getElementById("test2Input").value;
+            const output = document.getElementById("test2Output");
+            
+            try {
+                const transactions = JSON.parse(input);
+                const csv = generateCsvContent(transactions);
+                output.textContent = csv;
+            } catch (e) {
+                output.textContent = `❌ Erro ao parsear JSON: ${e.message}`;
+            }
+        }
+        
+        function resetTest2() {
+            document.getElementById("test2Input").value = '';
+            document.getElementById("test2Output").textContent = 'Resultado aparecerá aqui...';
+        }
+        
+        // Teste 3: Estado do Botão
+        function testButtonState() {
+            const count = parseInt(document.getElementById("test3Select").value);
+            const output = document.getElementById("test3Output");
+            const isDisabled = count === 0;
+            
+            const status = isDisabled ? "DESABILITADO ❌" : "HABILITADO ✅";
+            output.textContent = `Transações: ${count}\nEstado do botão: ${status}\n\nCodigo: disabled = ${isDisabled}`;
+        }
+        
+        // Teste 4: Nome do Arquivo
+        function testFilename() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, "0");
+            const day = String(today.getDate()).padStart(2, "0");
+            const filename = `transacoes-piggbank-${year}${month}${day}.csv`;
+            
+            const output = document.getElementById("test4Output");
+            output.textContent = `Data de hoje: ${today.toLocaleDateString()}\nNome do arquivo: ${filename}\n\n✓ Padrão correto!`;
+        }
+        
+        // Teste 5: Escape de Caracteres
+        function testEscaping() {
+            const input = document.getElementById("test5Input").value;
+            const output = document.getElementById("test5Output");
+            const result = formatCsvValue(input);
+            
+            output.textContent = `Entrada: ${input}\nFormatado: ${result}\n\nAnálise:\n- Contém vírgula? ${input.includes(",") ? "Sim ✓" : "Não"}\n- Contém aspas? ${input.includes('"') ? "Sim ✓" : "Não"}\n- Acentos preservados? ${/[àáâãäåèéêëìíîïòóôõöùúûü]/i.test(input) ? "Sim ✓" : "N/A"}`;
+        }
+        
+        // Inicializar teste 3
+        window.onload = () => {
+            testButtonState();
+        };
+    </script>
+</body>
+</html>

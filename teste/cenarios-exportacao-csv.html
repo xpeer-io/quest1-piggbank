@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Botão de Exportação CSV - Cenários</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+        }
+        
+        .scenario {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .scenario:hover {
+            transform: translateY(-5px);
+        }
+        
+        .scenario-header {
+            padding: 20px;
+            border-bottom: 3px solid #667eea;
+            background: #f9fafb;
+        }
+        
+        .scenario-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .scenario-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        .scenario-content {
+            padding: 20px;
+        }
+        
+        .transactions-list {
+            margin-bottom: 20px;
+        }
+        
+        .transaction-item {
+            background: #f3f4f6;
+            padding: 12px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .transaction-item.empty {
+            text-align: center;
+            color: #9ca3af;
+            border-left-color: #e5e7eb;
+            font-style: italic;
+        }
+        
+        .transaction-header {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .transaction-detail {
+            color: #6b7280;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+        
+        .button-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-enabled {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-enabled:hover {
+            background: #059669;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .icon {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .legend {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .legend-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            margin-right: 15px;
+        }
+        
+        .green {
+            background: #10b981;
+        }
+        
+        .red {
+            background: #ef4444;
+        }
+        
+        @media (max-width: 768px) {
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Testes - Botão de Exportação CSV</h1>
+        <p class="subtitle">Demonstração de cenários: Quando o botão deve aparecer (habilitado) e quando não deve (desabilitado)</p>
+        
+        <div class="scenarios-grid">
+            <!-- CENÁRIO 1: COM TRANSAÇÕES -->
+            <div class="scenario">
+                <div class="scenario-header">
+                    <div class="scenario-title">
+                        ✅ Cenário 1: Com Transações
+                        <span class="status-badge status-success">HABILITAR</span>
+                    </div>
+                    <div class="scenario-subtitle">
+                        Dashboard exibe 3 transações | Botão deve estar <strong>habilitado</strong>
+                    </div>
+                </div>
+                <div class="scenario-content">
+                    <div class="transactions-list">
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-001 | Receita Principal</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-10</div>
+                            <div class="transaction-detail">💰 Valor: R$ 12.000,00</div>
+                            <div class="transaction-detail">📂 Categoria: Assinatura</div>
+                            <div class="transaction-detail">📊 Tipo: Entrada</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-002 | Despesa AWS</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-08</div>
+                            <div class="transaction-detail">💰 Valor: R$ 2.800,00</div>
+                            <div class="transaction-detail">📂 Categoria: Infraestrutura</div>
+                            <div class="transaction-detail">📊 Tipo: Saída</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-003 | Consultoria Design</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-05</div>
+                            <div class="transaction-detail">💰 Valor: R$ 4.500,00</div>
+                            <div class="transaction-detail">📂 Categoria: Serviços</div>
+                            <div class="transaction-detail">📊 Tipo: Saída</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-section">
+                        <button class="btn btn-enabled">
+                            <span>📥</span>
+                            Exportar CSV
+                        </button>
+                        <div class="info-box">
+                            ✓ Arquivo gerado: <code>transacoes-piggbank-20260513.csv</code><br>
+                            ✓ Contém: 3 transações + cabeçalho<br>
+                            ✓ Download automático acionado
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CENÁRIO 2: SEM TRANSAÇÕES -->
+            <div class="scenario">
+                <div class="scenario-header">
+                    <div class="scenario-title">
+                        ❌ Cenário 2: Sem Transações
+                        <span class="status-badge status-error">DESABILITAR</span>
+                    </div>
+                    <div class="scenario-subtitle">
+                        Dashboard não exibe nenhuma transação | Botão deve estar <strong>desabilitado</strong>
+                    </div>
+                </div>
+                <div class="scenario-content">
+                    <div class="transactions-list">
+                        <div class="transaction-item empty">
+                            Nenhuma transação encontrada
+                        </div>
+                    </div>
+                    
+                    <div class="button-section">
+                        <button class="btn btn-disabled" disabled>
+                            <span>📥</span>
+                            Exportar CSV
+                        </button>
+                        <div class="info-box">
+                            ⚠️ Botão desabilitado<br>
+                            ⚠️ Motivo: Sem transações para exportar<br>
+                            ℹ️ Usuário vê feedback visual (botão cinza)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CENÁRIO 3: COM FILTRO APLICADO -->
+            <div class="scenario">
+                <div class="scenario-header">
+                    <div class="scenario-title">
+                        ✅ Cenário 3: Com Filtro de Data
+                        <span class="status-badge status-success">HABILITAR</span>
+                    </div>
+                    <div class="scenario-subtitle">
+                        Filtro ativo: 01/04/2026 - 10/04/2026 | Exibe 2 transações | Botão <strong>habilitado</strong>
+                    </div>
+                </div>
+                <div class="scenario-content">
+                    <div class="transactions-list">
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-001 | Receita Principal</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-10</div>
+                            <div class="transaction-detail">💰 Valor: R$ 12.000,00</div>
+                            <div class="transaction-detail">📂 Categoria: Assinatura</div>
+                            <div class="transaction-detail">📊 Tipo: Entrada</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-002 | Despesa AWS</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-08</div>
+                            <div class="transaction-detail">💰 Valor: R$ 2.800,00</div>
+                            <div class="transaction-detail">📂 Categoria: Infraestrutura</div>
+                            <div class="transaction-detail">📊 Tipo: Saída</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-section">
+                        <button class="btn btn-enabled">
+                            <span>📥</span>
+                            Exportar CSV
+                        </button>
+                        <div class="info-box">
+                            ✓ Respeita filtro aplicado<br>
+                            ✓ Arquivo contém: 2 transações (04/01 - 04/10)<br>
+                            ✓ Transações fora do período: excluídas
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CENÁRIO 4: CARACTERES ESPECIAIS -->
+            <div class="scenario">
+                <div class="scenario-header">
+                    <div class="scenario-title">
+                        ✅ Cenário 4: Caracteres Especiais
+                        <span class="status-badge status-success">HABILITAR</span>
+                    </div>
+                    <div class="scenario-subtitle">
+                        Categoria com acentos e caracteres especiais | Botão <strong>habilitado</strong>
+                    </div>
+                </div>
+                <div class="scenario-content">
+                    <div class="transactions-list">
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-004 | Consultória & Design</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-12</div>
+                            <div class="transaction-detail">💰 Valor: R$ 5.600,50</div>
+                            <div class="transaction-detail">📂 Categoria: Consultória, Análise & Design</div>
+                            <div class="transaction-detail">📊 Tipo: Entrada</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-005 | Despesa Especial</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-11</div>
+                            <div class="transaction-detail">💰 Valor: R$ 1.234,99</div>
+                            <div class="transaction-detail">📂 Categoria: "Serviços Premium" - Extra</div>
+                            <div class="transaction-detail">📊 Tipo: Saída</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-section">
+                        <button class="btn btn-enabled">
+                            <span>📥</span>
+                            Exportar CSV
+                        </button>
+                        <div class="info-box">
+                            ✓ Acentos preservados (Consultória, Análise)<br>
+                            ✓ Caracteres escapados corretamente<br>
+                            ✓ Valores com decimais: 5600.50, 1234.99
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CENÁRIO 5: UMA ÚNICA TRANSAÇÃO -->
+            <div class="scenario">
+                <div class="scenario-header">
+                    <div class="scenario-title">
+                        ✅ Cenário 5: Uma Transação
+                        <span class="status-badge status-success">HABILITAR</span>
+                    </div>
+                    <div class="scenario-subtitle">
+                        Apenas 1 transação no período | Botão <strong>habilitado</strong>
+                    </div>
+                </div>
+                <div class="scenario-content">
+                    <div class="transactions-list">
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-006 | Venda Pontual</div>
+                            <div class="transaction-detail">📅 Data: 2026-04-15</div>
+                            <div class="transaction-detail">💰 Valor: R$ 18.400,00</div>
+                            <div class="transaction-detail">📂 Categoria: Projeto</div>
+                            <div class="transaction-detail">📊 Tipo: Entrada</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-section">
+                        <button class="btn btn-enabled">
+                            <span>📥</span>
+                            Exportar CSV
+                        </button>
+                        <div class="info-box">
+                            ✓ Arquivo contém: 1 transação + cabeçalho (2 linhas)<br>
+                            ✓ Formato mantido mesmo com apenas 1 registro<br>
+                            ✓ Download acionado normalmente
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CENÁRIO 6: MUITAS TRANSAÇÕES -->
+            <div class="scenario">
+                <div class="scenario-header">
+                    <div class="scenario-title">
+                        ✅ Cenário 6: Muitas Transações
+                        <span class="status-badge status-success">HABILITAR</span>
+                    </div>
+                    <div class="scenario-subtitle">
+                        10+ transações no período | Botão <strong>habilitado</strong>
+                    </div>
+                </div>
+                <div class="scenario-content">
+                    <div class="transactions-list">
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-007 | Receita 1</div>
+                            <div class="transaction-detail">💰 R$ 5.000,00 | 📂 Vendas | 📊 Entrada</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-008 | Despesa 1</div>
+                            <div class="transaction-detail">💰 R$ 1.200,00 | 📂 Fornecedor A | 📊 Saída</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">ID: #TX-009 | Receita 2</div>
+                            <div class="transaction-detail">💰 R$ 8.500,00 | 📂 Subscriptions | 📊 Entrada</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-header">... mais 7 transações</div>
+                            <div class="transaction-detail">Total de 10 transações no período</div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-section">
+                        <button class="btn btn-enabled">
+                            <span>📥</span>
+                            Exportar CSV
+                        </button>
+                        <div class="info-box">
+                            ✓ Arquivo contém: 10 transações + cabeçalho (11 linhas)<br>
+                            ✓ Performance: Geração instantânea no cliente<br>
+                            ✓ Sem limite de transações
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LEGENDA -->
+        <div class="legend">
+            <div class="legend-title">📋 Legenda de Regras</div>
+            <div class="legend-item">
+                <div class="legend-color green"></div>
+                <strong>Verde/Habilitado:</strong> Botão visível e funcional. Clique exporta CSV com as transações exibidas.
+            </div>
+            <div class="legend-item">
+                <div class="legend-color red"></div>
+                <strong>Vermelho/Desabilitado:</strong> Botão desabilitado visualmente. Sem transações = sem arquivo para exportar.
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f0f4ff; border-radius: 6px; color: #374151; font-size: 13px;">
+                <strong>🎯 Regra Geral:</strong> O botão será <strong>HABILITADO</strong> quando houver pelo menos 1 transação para exportar. Será <strong>DESABILITADO</strong> quando não houver transações visíveis (lista vazia).
+            </div>
+        </div>
+    </div>
+</body>
+</html>
