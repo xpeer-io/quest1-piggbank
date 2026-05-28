@@ -21,6 +21,13 @@ export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
 }
 
+/**
+ * Usado para inputs HTML <input type="date" />
+ */
+export function formatDateToInput(date: Date): string {
+  return format(date, DATE_URL_FORMAT);
+}
+
 export function getDefaultDateRange(): DateRange {
   return {
     from: startOfDay(subDays(new Date(), 30)),
