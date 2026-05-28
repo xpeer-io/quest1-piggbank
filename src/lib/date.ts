@@ -6,6 +6,7 @@ import {
   differenceInMonths,
   startOfDay,
   endOfDay,
+  parse,
 } from "date-fns";
 import type { DateRange } from "@/types";
 
@@ -19,6 +20,10 @@ export function formatDisplayDate(date: Date): string {
 
 export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
+}
+
+export function parseUrlDate(s: string): Date {
+  return parse(s, DATE_URL_FORMAT, new Date());
 }
 
 export function getDefaultDateRange(): DateRange {
