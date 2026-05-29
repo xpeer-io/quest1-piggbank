@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
+import { ExportarTransacoes } from './ExportarTransacoes';
 import { DateRangeFilter } from "@/components/dashboard/DateRangeFilter";
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { NewTransactionModal } from "@/components/dashboard/NewTransactionModal";
@@ -22,8 +22,7 @@ export function DashboardClient({
   from,
   to,
 }: DashboardClientProps) {
-  const [transactionList, setTransactionList] =
-    useState(transactions);
+  const [transactionList, setTransactionList] = useState(transactions);
 
   function handleAddTransaction(newTransaction: {
     description: string;
@@ -34,67 +33,58 @@ export function DashboardClient({
   }) {
     const transaction: Transaction = {
       id: crypto.randomUUID(),
-
       description: newTransaction.description,
-
       amount: newTransaction.amount,
-
       type: newTransaction.type,
-
       category: newTransaction.category,
-
       date: new Date(`${newTransaction.date}T12:00:00`),
     };
 
-    setTransactionList((prev) => [
-      transaction,
-      ...prev,
-    ]);
+    setTransactionList((prev) => [transaction, ...prev]);
   }
 
   const income = transactionList
     .filter((transaction) => transaction.type === "income")
-    .reduce(
-      (total, transaction) =>
-        total + transaction.amount,
-      0
-    );
+    .reduce((total, transaction) => total + transaction.amount, 0);
 
   const expense = transactionList
     .filter((transaction) => transaction.type === "expense")
-    .reduce(
-      (total, transaction) =>
-        total + transaction.amount,
-      0
-    );
+    .reduce((total, transaction) => total + transaction.amount, 0);
 
   const balance = income - expense;
 
- const updatedMetrics: MetricSummary[] = [
-  {
-    label: "Receitas",
-    value: income,
-    currency: true,
-  },
+  const updatedMetrics: MetricSummary[] = [
+    {
+      label: "Receitas",
+      value: income,
+      currency: true,
+    },
+    {
+      label: "Despesas",
+      value: expense,
+      currency: true,
+    },
+    {
+      label: "Saldo",
+      value: balance,
+      currency: true,
+    },
+    {
+      label: "Transações",
+      value: transactionList.length,
+      currency: false,
+    },
+  ];
 
-  {
-    label: "Despesas",
-    value: expense,
-    currency: true,
-  },
-
-  {
-    label: "Saldo",
-    value: balance,
-    currency: true,
-  },
-
-  {
-    label: "Transações",
-    value: transactionList.length,
-    currency: false,
-  },
-];
+  // 🔄 MAPEAMENTO: Converte os dados do sistema para o formato aceito pelo exportador CSV
+  const transacoesFormatadasParaCSV = transactionList.map((t) => ({
+    data: t.date instanceof Date 
+      ? t.date.toISOString().split('T')[0] 
+      : new Date(t.date).toISOString().split('T')[0],
+    tipo: t.type === "income" ? ("Entrada" as const) : ("Saída" as const),
+    valor: t.amount,
+    categoria: t.category,
+  }));
 
   return (
     <>
@@ -111,19 +101,17 @@ export function DashboardClient({
 
         <div className="flex items-center gap-4">
           <DateRangeFilter from={from} to={to} />
+          
+          {/* 🚀 BOTÃO DE EXPORTAÇÃO INTEGRADO AQUI */}
+          <ExportarTransacoes transacoes={transacoesFormatadasParaCSV} />
 
-          <NewTransactionModal
-            onSubmit={handleAddTransaction}
-          />
+          <NewTransactionModal onSubmit={handleAddTransaction} />
         </div>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         {updatedMetrics.map((metric) => (
-          <MetricsCard
-            key={metric.label}
-            metric={metric}
-          />
+          <MetricsCard key={metric.label} metric={metric} />
         ))}
       </div>
 
@@ -132,9 +120,7 @@ export function DashboardClient({
           Transações recentes
         </h2>
 
-        <TransactionsTable
-          transactions={transactionList}
-        />
+        <TransactionsTable transactions={transactionList} />
       </div>
     </>
   );
