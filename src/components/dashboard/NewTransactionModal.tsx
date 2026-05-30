@@ -54,7 +54,7 @@ export function NewTransactionModal() {
 
   if (!isOpen) {
     return (
-      <Button onClick={() => setIsOpen(true)} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+      <Button onClick={() => setIsOpen(true)}>
         <Plus className="mr-2 size-4" />
         Nova Transação
       </Button>
@@ -62,10 +62,10 @@ export function NewTransactionModal() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-md rounded-xl border border-border bg-card p-6 shadow-2xl animate-in fade-in zoom-in duration-200">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-foreground tracking-tight">Nova Transação</h2>
+          <h2 className="text-xl font-semibold text-foreground tracking-tight">Nova Transação</h2>
           <button 
             onClick={() => setIsOpen(false)} 
             className="rounded-full p-1 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
@@ -97,7 +97,7 @@ export function NewTransactionModal() {
               required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full h-10 px-3 rounded-md border border-border bg-background text-sm text-foreground ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full h-10 px-3 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
               placeholder="Ex: Pagamento Fornecedor"
             />
           </div>
@@ -112,7 +112,7 @@ export function NewTransactionModal() {
                 min="0.01"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full h-10 px-3 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-10 px-3 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
               />
             </div>
             <div className="space-y-2">
@@ -121,7 +121,7 @@ export function NewTransactionModal() {
                 required
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full h-10 px-3 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full h-10 px-3 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all"
               >
                 <option value="">Selecione...</option>
                 <option value="Assinatura">Assinatura</option>
@@ -139,7 +139,7 @@ export function NewTransactionModal() {
               <PopoverTrigger
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "w-full justify-start text-left font-normal h-10 border-border"
+                  "w-full justify-start text-left font-normal h-10"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -160,7 +160,7 @@ export function NewTransactionModal() {
             <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={isSubmitting} className="bg-indigo-600 hover:bg-indigo-700 text-white px-8">
+            <Button type="submit" disabled={isSubmitting} className="px-8">
               {isSubmitting ? "Salvando..." : "Salvar"}
             </Button>
           </div>
