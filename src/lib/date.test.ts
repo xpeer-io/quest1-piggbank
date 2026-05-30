@@ -3,6 +3,7 @@ import {
   formatDisplayDate,
   formatUrlDate,
   getDefaultDateRange,
+  getDateRangeFromSearchParams,
   isValidDateRange,
   exceedsMaxRange,
   isDateInFuture,
@@ -116,9 +117,31 @@ describe("isValidDateRange", () => {
     ).toBe(false);
   });
 
-  it("returns false when from and to are the same instant", () => {
+  it("returns true when from and to are the same day", () => {
     const date = new Date(2026, 0, 1);
-    expect(isValidDateRange({ from: date, to: date })).toBe(false);
+    expect(isValidDateRange({ from: date, to: date })).toBe(true);
+  });
+});
+
+describe("getDateRangeFromSearchParams", () => {
+  it("returns a valid range when params are valid", () => {
+    const result = getDateRangeFromSearchParams({
+      from: "2026-05-01",
+      to: "2026-05-10",
+    });
+
+    expect(result).not.toBeNull();
+    expect(result?.from.getDate()).toBe(1);
+    expect(result?.to.getDate()).toBe(10);
+  });
+
+  it("returns null when the params are invalid", () => {
+    expect(
+      getDateRangeFromSearchParams({
+        from: "abc",
+        to: "2026-05-10",
+      }),
+    ).toBeNull();
   });
 });
 

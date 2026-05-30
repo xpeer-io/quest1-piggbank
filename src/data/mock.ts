@@ -1,12 +1,15 @@
 import type { Transaction } from "@/types";
 
+const now = Date.now();
+const daysAgo = (d: number) => new Date(now - d * 24 * 60 * 60 * 1000);
+
 export const mockTransactions: Transaction[] = [
   {
     id: "1",
     description: "Assinatura cliente Acme Corp",
     amount: 12000,
     type: "income",
-    date: new Date("2026-04-10"),
+    date: daysAgo(3),
     category: "Assinatura",
   },
   {
@@ -14,7 +17,7 @@ export const mockTransactions: Transaction[] = [
     description: "AWS — infraestrutura",
     amount: 2800,
     type: "expense",
-    date: new Date("2026-04-08"),
+    date: daysAgo(5),
     category: "Infraestrutura",
   },
   {
@@ -22,7 +25,7 @@ export const mockTransactions: Transaction[] = [
     description: "Consultoria design",
     amount: 4500,
     type: "expense",
-    date: new Date("2026-04-05"),
+    date: daysAgo(7),
     category: "Serviços",
   },
   {
@@ -30,7 +33,7 @@ export const mockTransactions: Transaction[] = [
     description: "Assinatura cliente Beta Ltda",
     amount: 8500,
     type: "income",
-    date: new Date("2026-04-03"),
+    date: daysAgo(10),
     category: "Assinatura",
   },
   {
@@ -38,7 +41,7 @@ export const mockTransactions: Transaction[] = [
     description: "Licença ferramentas dev",
     amount: 1800,
     type: "expense",
-    date: new Date("2026-03-28"),
+    date: daysAgo(12),
     category: "Software",
   },
   {
@@ -46,7 +49,7 @@ export const mockTransactions: Transaction[] = [
     description: "Projeto pontual — Startup XYZ",
     amount: 18400,
     type: "income",
-    date: new Date("2026-03-24"),
+    date: daysAgo(15),
     category: "Projeto",
   },
   {
@@ -54,7 +57,7 @@ export const mockTransactions: Transaction[] = [
     description: "Folha de pagamento — março",
     amount: 22400,
     type: "expense",
-    date: new Date("2026-03-20"),
+    date: daysAgo(18),
     category: "RH",
   },
   {
@@ -62,7 +65,7 @@ export const mockTransactions: Transaction[] = [
     description: "Assinatura cliente Gama S.A.",
     amount: 9300,
     type: "income",
-    date: new Date("2026-03-14"),
+    date: daysAgo(22),
     category: "Assinatura",
   },
 ];
