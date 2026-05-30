@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
+import { ExportTransactions } from "@/components/dashboard/ExportTransactions";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { getDefaultDateRange } from "@/lib/date";
 
@@ -36,6 +38,9 @@ export default async function DashboardPage() {
           <div className="rounded-md border border-border bg-card px-4 py-2 text-sm text-muted-foreground">
             Últimos 30 dias
           </div>
+          <Button>
+            Nova transação
+          </Button>
         </div>
 
         <div className="grid grid-cols-4 gap-4">
@@ -44,10 +49,13 @@ export default async function DashboardPage() {
           ))}
         </div>
 
-        <div>
-          <h2 className="mb-4 text-base font-medium text-foreground">
-            Transações recentes
-          </h2>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-medium text-foreground">
+              Transações recentes
+            </h2>
+            <ExportTransactions transactions={transactions} />
+          </div>
           <TransactionsTable transactions={transactions} />
         </div>
       </main>
