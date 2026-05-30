@@ -17,6 +17,14 @@ export function DashboardClient({ initialTransactions }: Props) {
     setTransactions((prev) => [tx, ...prev]);
   }
 
+  function handleUpdate(updated: Transaction) {
+    setTransactions((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+  }
+
+  function handleDelete(id: string) {
+    setTransactions((prev) => prev.filter((t) => t.id !== id));
+  }
+
   const metrics = computeMetrics(transactions);
 
   return (
@@ -28,7 +36,12 @@ export function DashboardClient({ initialTransactions }: Props) {
       </div>
 
       <div className="mt-6">
-        <TransactionsTable transactions={transactions} onAdd={handleAdd} />
+        <TransactionsTable
+          transactions={transactions}
+          onAdd={handleAdd}
+          onUpdate={handleUpdate}
+          onDelete={handleDelete}
+        />
       </div>
     </>
   );

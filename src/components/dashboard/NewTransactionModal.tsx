@@ -8,9 +8,11 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (tx: Transaction) => void;
+  initialTransaction?: Transaction;
+  onUpdate?: (tx: Transaction) => void;
 };
 
-export function NewTransactionModal({ isOpen, onClose, onAdd }: Props) {
+export function NewTransactionModal({ isOpen, onClose, onAdd, initialTransaction, onUpdate }: Props) {
   const backdropRef = useRef<HTMLDivElement | null>(null);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -19,6 +21,26 @@ export function NewTransactionModal({ isOpen, onClose, onAdd }: Props) {
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [type, setType] = useState<"expense" | "income">("expense");
+
+  // populate form when editing
+  useEffect(() => {
+    if (initialTransaction && isOpen) {
+      setDescription(initialTransaction.description ?? "");
+      setCategory(initialTransaction.category ?? "");
+      setAmount(String(initialTransaction.amount ?? ""));
+      // format date as YYYY-MM-DD
+      const d = initialTransaction.date instanceof Date ? initialTransaction.date : new Date(initialTransaction.date);
+      setDate(d.toISOString().slice(0, 10));
+      setType(initialTransaction.type ?? "expense");
+    } else if (isOpen) {
+      // reset on open for new
+      setDescription("");
+      setCategory("");
+      setAmount("");
+      setDate(new Date().toISOString().slice(0, 10));
+      setType("expense");
+    }
+  }, [initialTransaction, isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -50,17 +72,20 @@ export function NewTransactionModal({ isOpen, onClose, onAdd }: Props) {
     if (!description.trim()) return alert("Preencha a descrição.");
     if (!isFinite(amt) || amt <= 0) return alert("Informe um valor válido.");
     if (!date) return alert("Informe a data.");
-
-    const tx: Transaction = {
-      id: String(Date.now()),
+    const txBase: Transaction = {
+      id: initialTransaction?.id ?? String(Date.now()),
       description: description.trim(),
       amount: Math.round(amt * 100) / 100,
       type: type,
       date: new Date(date),
       category: category.trim() || "Outros",
-    };
+    } as Transaction;
 
-    onAdd(tx);
+    if (initialTransaction && onUpdate) {
+      onUpdate(txBase);
+    } else {
+      onAdd(txBase);
+    }
     // reset form
     setDescription("");
     setCategory("");
@@ -87,8 +112,8 @@ export function NewTransactionModal({ isOpen, onClose, onAdd }: Props) {
       >
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-foreground">Nova Transação</h3>
-            <p className="text-sm text-muted-foreground">Preencha os dados para adicionar</p>
+            <h3 className="text-lg font-semibold text-foreground">{initialTransaction ? "Editar Transação" : "Nova Transação"}</h3>
+            <p className="text-sm text-muted-foreground">{initialTransaction ? "Altere os dados e salve" : "Preencha os dados para adicionar"}</p>
           </div>
           <Button
             type="button"
@@ -173,7 +198,7 @@ export function NewTransactionModal({ isOpen, onClose, onAdd }: Props) {
             variant="default"
             size="sm"
           >
-            Confirmar Transação
+            {initialTransaction ? "Salvar" : "Confirmar Transação"}
           </Button>
         </div>
       </form>
