@@ -3,6 +3,7 @@
 import { Suspense, useMemo, useState } from "react";
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
+import ExportButton from "@/components/dashboard/ExportButton";
 import { NewTransactionModal } from "@/components/dashboard/NewTransactionModal";
 import DateRangeFilter from "@/components/dashboard/DateRangeFilter";
 import { computeMetrics } from "@/lib/metrics";
@@ -55,8 +56,11 @@ export function DashboardClient({ initialTransactions, initialDateRange }: Dashb
 
         <section>
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-base font-medium text-foreground">Transações recentes</h2>
-            <span className="text-xs uppercase tracking-wide text-muted-foreground">Atualiza em tempo real</span>
+            <div>
+              <h2 className="text-base font-medium text-foreground">Transações recentes</h2>
+              <span className="text-xs uppercase tracking-wide text-muted-foreground">Atualiza em tempo real</span>
+            </div>
+            <ExportButton transactions={transactions} />
           </div>
           <TransactionsTable transactions={transactions} />
         </section>

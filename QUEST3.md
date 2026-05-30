@@ -140,3 +140,41 @@ Comandos Úteis:
 - `npm test`: Roda testes.
 - `npm test -- --coverage`: Verifica cobertura.
 - `npm run build`: Build de produção.
+
+## **Implementação realizada (resumo para entrega)**
+
+- **Arquivos adicionados/alterados:**
+   - [docs/specs/exportar-transacoes-test-scenarios.md](docs/specs/exportar-transacoes-test-scenarios.md) — cenários de teste escritos.
+   - [src/lib/export.ts](src/lib/export.ts) — utilitário para gerar CSV (função `generateTransactionsCsv`).
+   - [src/components/dashboard/ExportarTransacoes.test.tsx](src/components/dashboard/ExportarTransacoes.test.tsx) — testes Vitest para o utilitário CSV.
+   - [src/components/dashboard/ExportButton.tsx](src/components/dashboard/ExportButton.tsx) — componente cliente que gera e inicia download do CSV.
+   - [src/components/dashboard/ExportButton.test.tsx](src/components/dashboard/ExportButton.test.tsx) — testes unitários do botão (mock de `URL.createObjectURL`).
+   - [src/components/dashboard/DashboardClient.tsx](src/components/dashboard/DashboardClient.tsx) — integrado o botão no cabeçalho das transações.
+
+- **Como rodar localmente (validação):**
+
+```powershell
+npm install
+npm test
+# cobertura opcional
+npm test -- --coverage
+```
+
+- **Status dos testes:** Todos os testes passaram no meu ambiente: `55 passed`.
+
+- **Observações sobre o uso do Gemini CLI:**
+   - Tentei executar o `gemini` em modo não-interativo para gerar código automaticamente, porém o CLI exigiu autenticação e workspace trust (variável `GEMINI_API_KEY` não configurada). Por isso o código e os testes foram implementados manualmente seguindo estritamente os cenários do arquivo de especificação.
+
+- **Comandos para criar branch e abrir PR:**
+
+```bash
+git checkout -b feature/exportar-transacoes-nome-aluno
+git add .
+git commit -m "feat: adiciona exportacao de transacoes em csv com TDD"
+git push -u origin feature/exportar-transacoes-nome-aluno
+# então abra o PR no GitHub apontando para xpeer-io/quest1-piggbank
+```
+
+- **Sugestão para entrega:** inclua o link do PR e o arquivo `docs/specs/exportar-transacoes-test-scenarios.md` no envio do exercício.
+
+Se quiser, eu abro o PR automaticamente (posso criar o branch, commitar e pushar) — quer que eu proceda com isso? 
