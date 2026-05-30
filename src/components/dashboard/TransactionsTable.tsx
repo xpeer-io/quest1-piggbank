@@ -1,11 +1,14 @@
 import type { Transaction } from "@/types";
 import { formatDisplayDate } from "@/lib/date";
 
+// Atualizamos as Props para receber as funções de clique do Dashboard
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onEdit: (transaction: Transaction) => void;
+  onDelete: (transaction: Transaction) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({ transactions, onEdit, onDelete }: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -30,6 +33,10 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             </th>
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
+            </th>
+            {/* Nova Coluna */}
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Ações
             </th>
           </tr>
         </thead>
@@ -62,6 +69,21 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   style: "currency",
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
+              </td>
+              {/* Botões de Ação chamando as funções recebidas por prop */}
+              <td className="px-4 py-3 text-right space-x-2">
+                <button
+                  onClick={() => onEdit(transaction)}
+                  className="text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => onDelete(transaction)}
+                  className="text-xs font-medium text-red-400 hover:text-red-300 transition-colors"
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}
