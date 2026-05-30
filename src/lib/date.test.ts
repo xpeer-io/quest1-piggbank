@@ -9,7 +9,9 @@ import {
   DATE_DISPLAY_FORMAT,
   DATE_URL_FORMAT,
   MAX_DATE_RANGE_MONTHS,
+  parseUrlDate,
 } from "./date";
+import { isLeapYear } from "date-fns";
 
 const FIXED_NOW = new Date("2026-04-03T12:00:00.000Z");
 
@@ -116,9 +118,9 @@ describe("isValidDateRange", () => {
     ).toBe(false);
   });
 
-  it("returns false when from and to are the same instant", () => {
+  it("returns true when from and to are the same instant (single day filter)", () => {
     const date = new Date(2026, 0, 1);
-    expect(isValidDateRange({ from: date, to: date })).toBe(false);
+    expect(isValidDateRange({ from: date, to: date })).toBe(true);
   });
 });
 
@@ -171,5 +173,44 @@ describe("isDateInFuture", () => {
     vi.setSystemTime(FIXED_NOW);
 
     expect(isDateInFuture(FIXED_NOW)).toBe(false);
+  });
+});
+
+describe("parseUrlDate edge cases", () => {
+  it("returns null for empty strings", () => {
+    expect(parseUrlDate("")).toBe(null);
+  });
+
+  it("returns null for null input", () => {
+    expect(parseUrlDate(null)).toBe(null);
+  });
+
+  it("returns null for malformed date strings", () => {
+    expect(parseUrlDate("not-a-date")).toBe(null);
+    expect(parseUrlDate("2026-99-99")).toBe(null);
+  });
+});
+
+describe("edge cases", () => {
+  it("identifies leap year correctly for February 29th logic", () => {
+    const leapDay = new Date(2024, 1, 29);
+    expect(isLeapYear(leapDay)).toBe(true);
+    expect(formatUrlDate(leapDay)).toBe("2024-02-29");
+  });
+
+  it("calculates 12 months correctly across leap year", () => {
+    const from = new Date("2024-02-28T00:00:00Z");
+    const to = new Date("2025-02-28T23:59:59Z");
+    expect(exceedsMaxRange({ from, to })).toBe(false);
+  });
+
+  it("handles extreme UTC boundaries", () => {
+    // 23:59:59 de um dia deve ser validado corretamente como fim do dia
+    const date = new Date("2026-05-31T23:59:59.999Z");
+    const range = {
+      from: new Date("2026-05-01T00:00:00.000Z"),
+      to: new Date("2026-05-31T23:59:59.999Z")
+    };
+    expect(isValidDateRange(range)).toBe(true);
   });
 });
