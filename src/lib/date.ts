@@ -39,3 +39,7 @@ export function exceedsMaxRange(range: DateRange): boolean {
 export function isDateInFuture(date: Date): boolean {
   return isAfter(date, new Date());
 }
+
+export function formatDateRange(from: Date, to: Date): string {
+  return `${formatDisplayDate(from)} - ${formatDisplayDate(to)}`;
+}
