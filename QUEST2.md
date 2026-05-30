@@ -79,23 +79,7 @@ git checkout -b feature/nova-transacao-aluno1-aluno2
 
 Se você não está familiarizado com o fluxo de Fork e Pull Request (conhecido como _Forking Workflow_), siga este roteiro:
 
-1. **Fazendo o Fork:**
-   - Vá até a página principal do repositório original (`xpeer-io/quest1-piggbank`) no GitHub.
-   - No canto superior direito, clique no botão **"Fork"**.
-   - Escolha a sua conta pessoal como destino e confirme. Isso criará uma cópia do projeto na _sua_ conta.
-2. **Clonando o Fork:**
-   - No seu repositório recém-criado (`SUA_CONTA_GITHUB/quest1-piggbank`), clique no botão verde "Code" e copie o link (HTTPS ou SSH).
-   - No terminal, rode `git clone <LINK_COPIADO>`, entre na pasta (`cd quest1-piggbank`) e instale as dependências (`npm install`).
-3. **Criando a Branch:**
-   - Crie e mude para a nova branch da dupla: `git checkout -b feature/nova-transacao-aluno1-aluno2`.
-4. **Trabalhando e Fazendo Push:**
-   - Após finalizar as modificações (desenvolver o fluxo do modal), adicione e commite as mudanças: `git add .` e `git commit -m "feat: adiciona modal de transacao"`.
-   - Envie as alterações feitas na branch para o seu repositório no GitHub: `git push -u origin feature/nova-transacao-aluno1-aluno2`.
-5. **Abrindo o Pull Request para o Original:**
-   - Vá até a página do seu fork no GitHub (ou a página do repositório original). Haverá um banner na cor amarela/verde apontando sua push recente com um botão "Compare & pull request", clique nele. Alternativamente, você pode ir na aba "Pull requests" e clicar em "New pull request".
-   - Certifique-se de que a _base repository_ apontada no lado esquerdo seja o da empresa (`xpeer-io/quest1-piggbank`) e o _head repository_ (lado direito) seja o seu fork com a sua devida branch que contém as mudanças.
-   - Preencha um título adequado e a descrição. Crie o PR.
-   - Logo em seguida, você deve solicitar o _Code Review_ de seu colega de equipe/dupla enviando o link e informando aos responsáveis.
+1.![alt text](image.png)
 
 ### 3. Implementação Guiada por IA
 

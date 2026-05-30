@@ -1,14 +1,22 @@
 import { describe, it, expect } from "vitest";
 import { getTransactions, getMetrics } from "./api";
 import { mockTransactions } from "@/data/mock";
-import { getDefaultDateRange } from "./date";
 
-const filters = { dateRange: getDefaultDateRange() };
+const filters = {
+  dateRange: {
+    from: new Date("2026-03-01"),
+    to: new Date("2026-04-30"),
+  },
+};
 
 describe("getTransactions", () => {
-  it("returns all mock transactions", async () => {
+  it("returns transactions within the provided date range", async () => {
     const result = await getTransactions(filters);
-    expect(result).toEqual(mockTransactions);
+    const expected = mockTransactions.filter(
+      (transaction) => transaction.date >= filters.dateRange.from && transaction.date <= filters.dateRange.to,
+    );
+
+    expect(result).toEqual(expected);
   });
 
   it("returns an array", async () => {
