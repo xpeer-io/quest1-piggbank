@@ -1,5 +1,5 @@
-import { describe, it, expect, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, expect, afterEach, vi } from "vitest";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 
 afterEach(cleanup);
 import { TransactionsTable } from "./TransactionsTable";
@@ -51,8 +51,29 @@ describe("TransactionsTable", () => {
     expect(screen.getByText(/^-/)).toBeTruthy();
   });
 
-  it("does not render empty state when there are transactions", () => {
+  it("renders edit and delete buttons for each row", () => {
     render(<TransactionsTable transactions={[makeTransaction()]} />);
-    expect(screen.queryByText(/Nenhuma transação encontrada/)).toBeNull();
+    expect(screen.getByRole("button", { name: /editar/i })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /excluir/i })).toBeTruthy();
+  });
+
+  it("calls onEdit when edit button is clicked", () => {
+    const onEdit = vi.fn();
+    const transaction = makeTransaction({ id: "edit-me" });
+    render(<TransactionsTable transactions={[transaction]} onEdit={onEdit} />);
+    
+    fireEvent.click(screen.getByRole("button", { name: /editar/i }));
+    
+    expect(onEdit).toHaveBeenCalledWith("edit-me");
+  });
+
+  it("calls onDelete when delete button is clicked", () => {
+    const onDelete = vi.fn();
+    const transaction = makeTransaction({ id: "delete-me" });
+    render(<TransactionsTable transactions={[transaction]} onDelete={onDelete} />);
+    
+    fireEvent.click(screen.getByRole("button", { name: /excluir/i }));
+    
+    expect(onDelete).toHaveBeenCalledWith("delete-me");
   });
 });

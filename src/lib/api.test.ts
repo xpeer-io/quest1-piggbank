@@ -3,7 +3,12 @@ import { getTransactions, getMetrics } from "./api";
 import { mockTransactions } from "@/data/mock";
 import { getDefaultDateRange } from "./date";
 
-const filters = { dateRange: getDefaultDateRange() };
+const filters = { 
+  dateRange: { 
+    from: new Date("2026-03-01"), 
+    to: new Date("2026-05-31") 
+  } 
+};
 
 describe("getTransactions", () => {
   it("returns all mock transactions", async () => {

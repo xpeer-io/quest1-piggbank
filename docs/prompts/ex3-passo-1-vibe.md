@@ -1,1 +1,1 @@
-Faz um filtro de data pra mim
+Crie um pedido amigável e claro para implementar um filtro de período no dashboard financeiro do piggbank, incluindo o objetivo principal, o comportamento esperado e o fato de que hoje o dashboard só mostra os últimos 30 dias.
