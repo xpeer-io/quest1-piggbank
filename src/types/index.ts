@@ -3,6 +3,16 @@ export type DateRange = {
   to: Date;
 };
 
+export type DatePreset = 
+  | "today" 
+  | "last7days" 
+  | "last30days" 
+  | "currentMonth" 
+  | "currentYear" 
+  | "custom";
+
+export type AggregationLevel = "day" | "week" | "month";
+
 export type MetricSummary = {
   label: string;
   value: number;

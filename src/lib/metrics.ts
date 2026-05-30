@@ -1,13 +1,16 @@
 import type { MetricSummary, Transaction } from "@/types";
 
 export function computeMetrics(transactions: Transaction[]): MetricSummary[] {
-  const revenue = transactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
+  let revenue = 0;
+  let expenses = 0;
 
-  const expenses = transactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
+  transactions.forEach((t) => {
+    if (t.type === "income") {
+      revenue += t.amount;
+    } else if (t.type === "expense") {
+      expenses += t.amount;
+    }
+  });
 
   return [
     { label: "Faturamento", value: revenue, currency: true },

@@ -1,10 +1,35 @@
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
+import { DateRangePicker } from "./DateRangePicker";
 import { getMetrics, getTransactions } from "@/lib/api";
-import { getDefaultDateRange } from "@/lib/date";
+import { NewTransactionModal } from "@/components/dashboard/NewTransactionModal";
+import { 
+  getDefaultDateRange, 
+  parseUrlDate, 
+  isValidDateRange, 
+  startOfDay, 
+  endOfDay 
+} from "@/lib/date";
 
-export default async function DashboardPage() {
-  const filters = { dateRange: getDefaultDateRange() };
+export const dynamic = "force-dynamic";
+
+export default async function DashboardPage(props: {
+  searchParams: Promise<{ from?: string; to?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const fromParam = parseUrlDate(searchParams.from ?? null);
+  const toParam = parseUrlDate(searchParams.to ?? null);
+
+  let dateRange = getDefaultDateRange();
+
+  if (fromParam && toParam && isValidDateRange({ from: fromParam, to: toParam })) {
+    dateRange = {
+      from: startOfDay(fromParam),
+      to: endOfDay(toParam),
+    };
+  }
+
+  const filters = { dateRange };
   const [metrics, transactions] = await Promise.all([
     getMetrics(filters),
     getTransactions(filters),
@@ -32,9 +57,9 @@ export default async function DashboardPage() {
               Métricas financeiras do período
             </p>
           </div>
-          {/* TODO: substituir pelo DateRangeFilter — piggbank-142 */}
-          <div className="rounded-md border border-border bg-card px-4 py-2 text-sm text-muted-foreground">
-            Últimos 30 dias
+          <div className="flex items-center gap-3">
+            <DateRangePicker />
+            <NewTransactionModal />
           </div>
         </div>
 
