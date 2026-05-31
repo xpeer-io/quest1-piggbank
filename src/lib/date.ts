@@ -29,7 +29,7 @@ export function getDefaultDateRange(): DateRange {
 }
 
 export function isValidDateRange(range: DateRange): boolean {
-  return isAfter(range.to, range.from);
+  return !isBefore(range.to, range.from);
 }
 
 export function exceedsMaxRange(range: DateRange): boolean {

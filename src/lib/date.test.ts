@@ -116,9 +116,9 @@ describe("isValidDateRange", () => {
     ).toBe(false);
   });
 
-  it("returns false when from and to are the same instant", () => {
+  it("returns true when from and to are the same instant", () => {
     const date = new Date(2026, 0, 1);
-    expect(isValidDateRange({ from: date, to: date })).toBe(false);
+    expect(isValidDateRange({ from: date, to: date })).toBe(true);
   });
 });
 
