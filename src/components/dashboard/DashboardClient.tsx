@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { MetricsCard } from '@/components/dashboard/MetricsCard';
 import { TransactionsTable } from '@/components/dashboard/TransactionsTable';
 import { TransactionModal } from '@/components/dashboard/TransactionModal';
+import { Button } from '@/components/ui/button';
+import { exportarCSV } from '@/lib/csv';
 import type { Metric, Transaction } from '@/types';
 
 interface DashboardClientProps {
@@ -63,10 +65,19 @@ export function DashboardClient({ initialMetrics, initialTransactions }: Dashboa
         ))}
       </div>
 
-      <div>
-        <h2 className="mb-4 text-base font-medium text-foreground">Transações recentes</h2>
-        <TransactionsTable transactions={transactions} />
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-base font-medium text-foreground">
+          Transações recentes
+        </h2>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => exportarCSV(transactions)}
+        >
+          Exportar CSV
+        </Button>
       </div>
+      <TransactionsTable transactions={transactions} />
 
       <TransactionModal
         isOpen={isModalOpen}
