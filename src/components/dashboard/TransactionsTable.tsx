@@ -31,6 +31,9 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
             </th>
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Ações
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -62,6 +65,16 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   style: "currency",
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
+              </td>
+              <td className="px-4 py-3 text-right">
+                <div className="flex items-center justify-end gap-2">
+                  <button className="rounded-md border border-border bg-background px-3 py-1 text-xs font-medium text-foreground transition hover:bg-accent/10">
+                    Editar
+                  </button>
+                  <button className="rounded-md border border-border bg-background px-3 py-1 text-xs font-medium text-foreground transition hover:bg-destructive/10">
+                    Excluir
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
