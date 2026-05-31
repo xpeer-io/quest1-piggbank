@@ -3,6 +3,7 @@ import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
 import { DateRangePicker } from "./DateRangePicker";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { NewTransactionModal } from "@/components/dashboard/NewTransactionModal";
+import { ExportButton } from "@/components/dashboard/ExportButton";
 import { 
   getDefaultDateRange, 
   parseUrlDate, 
@@ -70,9 +71,12 @@ export default async function DashboardPage(props: {
         </div>
 
         <div>
-          <h2 className="mb-4 text-base font-medium text-foreground">
-            Transações recentes
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-medium text-foreground">
+              Transações recentes
+            </h2>
+            <ExportButton transactions={transactions} />
+          </div>
           <TransactionsTable transactions={transactions} />
         </div>
       </main>

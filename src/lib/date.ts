@@ -30,6 +30,10 @@ export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
 }
 
+export function formatFilenameDate(date: Date): string {
+  return format(date, "yyyyMMdd");
+}
+
 export function parseUrlDate(dateStr: string | null): Date | null {
   if (!dateStr) return null;
   const parsed = parse(dateStr, DATE_URL_FORMAT, new Date());

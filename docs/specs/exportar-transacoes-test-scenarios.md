@@ -53,7 +53,7 @@ transacoes-piggbank-YYYYMMDD.csv
 
 - Dado transações com:
   - acentos
-  - símbolos (R$, %, &, etc)
+  - símbolos ($, %, &, etc)
   - textos longos
 
 - Quando exportado
