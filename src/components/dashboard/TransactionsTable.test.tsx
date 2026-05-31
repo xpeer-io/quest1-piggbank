@@ -31,6 +31,17 @@ describe("TransactionsTable", () => {
     expect(screen.getByText("Receita B")).toBeTruthy();
   });
 
+  it("renders an Ações column header", () => {
+    render(<TransactionsTable transactions={[makeTransaction()]} />);
+    expect(screen.getByText("Ações")).toBeTruthy();
+  });
+
+  it("renders Editar and Excluir buttons for each transaction", () => {
+    render(<TransactionsTable transactions={[makeTransaction()]} />);
+    expect(screen.getByRole("button", { name: "Editar" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Excluir" })).toBeTruthy();
+  });
+
   it("formats date as dd/MM/yyyy", () => {
     render(<TransactionsTable transactions={[makeTransaction({ date: new Date(2026, 3, 10) })]} />);
     expect(screen.getByText("10/04/2026")).toBeTruthy();
