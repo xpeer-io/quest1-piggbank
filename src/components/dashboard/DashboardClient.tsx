@@ -3,8 +3,7 @@
 import { useState, useCallback } from "react";
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
-import { TransactionModal } from "@/components/dashboard/TransactionModal";
-import { TransactionEditModal } from "@/components/dashboard/TransactionEditModal";
+import { TransactionFormModal, type TransactionFormValues } from "@/components/dashboard/TransactionFormModal";
 // Removed CSV export — not part of this branch
 import type { MetricSummary, Transaction } from "@/types";
 
@@ -19,13 +18,7 @@ export function DashboardClient({ initialMetrics, initialTransactions }: Dashboa
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
 
-  function handleSave(data: {
-    type: 'income' | 'expense';
-    amount: number;
-    date: string;
-    category: string;
-    description: string;
-  }) {
+  function handleSave(data: Omit<TransactionFormValues, "id">) {
     const newTransaction: Transaction = {
       id: String(Date.now()),
       description: data.description,
@@ -34,7 +27,7 @@ export function DashboardClient({ initialMetrics, initialTransactions }: Dashboa
       date: new Date(data.date),
       type: data.type,
     };
-    setTransactions(prev => [newTransaction, ...prev]);
+    setTransactions((prev) => [newTransaction, ...prev]);
   }
 
   const handleDelete = useCallback((id: string) => {
@@ -50,9 +43,23 @@ export function DashboardClient({ initialMetrics, initialTransactions }: Dashboa
     setIsEditOpen(true);
   }, []);
 
-  const handleEditSave = useCallback((updated: { id: string; type: 'income' | 'expense'; amount: number; date: string; category: string; description: string; }) => {
-    console.log('handleEditSave called', updated.id);
-    setTransactions(prev => prev.map(t => t.id === updated.id ? { ...t, description: updated.description, amount: updated.amount, category: updated.category, date: new Date(updated.date), type: updated.type } : t));
+  const handleEditSave = useCallback((updated: TransactionFormValues) => {
+    if (!updated.id) return;
+
+    setTransactions((prev) =>
+      prev.map((transaction) =>
+        transaction.id === updated.id
+          ? {
+              ...transaction,
+              description: updated.description,
+              amount: updated.amount,
+              category: updated.category,
+              date: new Date(updated.date),
+              type: updated.type,
+            }
+          : transaction,
+      ),
+    );
     setIsEditOpen(false);
     setSelectedTransaction(null);
   }, []);
@@ -87,9 +94,33 @@ export function DashboardClient({ initialMetrics, initialTransactions }: Dashboa
 
       <TransactionsTable transactions={transactions} onEdit={handleEditClick} onDelete={handleDelete} />
 
-      <TransactionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSave={handleSave} />
+      <TransactionFormModal
+        isOpen={isModalOpen}
+        title="Nova Transação"
+        submitLabel="Salvar"
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSave}
+      />
 
-      <TransactionEditModal isOpen={isEditOpen} transaction={selectedTransaction} onClose={() => setIsEditOpen(false)} onSave={handleEditSave} />
+      <TransactionFormModal
+        isOpen={isEditOpen}
+        title="Editar Transação"
+        submitLabel="Salvar"
+        initialValues={
+          selectedTransaction
+            ? {
+                id: selectedTransaction.id,
+                type: selectedTransaction.type,
+                amount: Math.abs(selectedTransaction.amount),
+                date: selectedTransaction.date.toISOString().slice(0, 10),
+                category: selectedTransaction.category,
+                description: selectedTransaction.description,
+              }
+            : undefined
+        }
+        onClose={() => setIsEditOpen(false)}
+        onSubmit={handleEditSave}
+      />
     </>
   );
 }
