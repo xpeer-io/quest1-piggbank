@@ -1,11 +1,20 @@
+"use client";
+
 import type { Transaction } from "@/types";
 import { formatDisplayDate } from "@/lib/date";
+import { Button } from "@/components/ui/button";
 
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onEdit?: (transaction: Transaction) => void;
+  onDelete?: (id: string) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({
+  transactions,
+  onEdit,
+  onDelete,
+}: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -30,6 +39,9 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             </th>
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Ações
             </th>
           </tr>
         </thead>
@@ -62,6 +74,28 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   style: "currency",
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
+              </td>
+              <td className="px-4 py-3 text-right">
+                <div className="flex items-center justify-end gap-2">
+                  <Button
+                    type="button"
+                    size="xs"
+                    variant="ghost"
+                    onClick={() => onEdit?.(transaction)}
+                    aria-label={`Editar transação ${transaction.description}`}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    type="button"
+                    size="xs"
+                    variant="destructive"
+                    onClick={() => onDelete?.(transaction.id)}
+                    aria-label={`Excluir transação ${transaction.description}`}
+                  >
+                    Excluir
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}
