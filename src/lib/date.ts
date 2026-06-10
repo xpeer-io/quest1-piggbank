@@ -11,6 +11,7 @@ import type { DateRange } from "@/types";
 
 export const DATE_DISPLAY_FORMAT = "dd/MM/yyyy";
 export const DATE_URL_FORMAT = "yyyy-MM-dd";
+export const DATE_FILENAME_FORMAT = "yyyyMMdd";
 export const MAX_DATE_RANGE_MONTHS = 12;
 
 export function formatDisplayDate(date: Date): string {
@@ -19,6 +20,10 @@ export function formatDisplayDate(date: Date): string {
 
 export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
+}
+
+export function formatFilenameDate(date: Date): string {
+  return format(date, DATE_FILENAME_FORMAT);
 }
 
 export function getDefaultDateRange(): DateRange {
