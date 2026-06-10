@@ -1,11 +1,20 @@
+"use client";
+
 import type { Transaction } from "@/types";
 import { formatDisplayDate } from "@/lib/date";
+import { Button } from "@/components/ui/button";
 
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onDeleteTransaction?: (transaction: Transaction) => void;
+  onEditTransaction?: (transaction: Transaction) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({
+  transactions,
+  onDeleteTransaction,
+  onEditTransaction,
+}: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -15,7 +24,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-card">
+    <div className="overflow-x-auto rounded-lg border border-border bg-card">
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border">
@@ -30,6 +39,9 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             </th>
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              A&ccedil;&otilde;es
             </th>
           </tr>
         </thead>
@@ -62,6 +74,24 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   style: "currency",
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
+              </td>
+              <td className="px-4 py-3">
+                <div className="flex justify-end gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => onEditTransaction?.(transaction)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => onDeleteTransaction?.(transaction)}
+                  >
+                    Excluir
+                  </Button>
+                </div>
               </td>
             </tr>
           ))}

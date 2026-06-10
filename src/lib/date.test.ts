@@ -2,6 +2,8 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   formatDisplayDate,
   formatUrlDate,
+  parseSerializedDate,
+  parseUrlDate,
   getDefaultDateRange,
   isValidDateRange,
   exceedsMaxRange,
@@ -48,6 +50,24 @@ describe("formatUrlDate", () => {
 
   it("pads single-digit day and month", () => {
     expect(formatUrlDate(new Date(2026, 0, 5))).toBe("2026-01-05");
+  });
+});
+
+describe("parseUrlDate", () => {
+  it("parses yyyy-MM-dd as a local date", () => {
+    const parsedDate = parseUrlDate("2026-03-15");
+
+    expect(parsedDate.getFullYear()).toBe(2026);
+    expect(parsedDate.getMonth()).toBe(2);
+    expect(parsedDate.getDate()).toBe(15);
+  });
+});
+
+describe("parseSerializedDate", () => {
+  it("parses ISO serialized dates", () => {
+    expect(parseSerializedDate("2026-04-10T12:00:00.000Z").getTime()).toBe(
+      new Date("2026-04-10T12:00:00.000Z").getTime(),
+    );
   });
 });
 
