@@ -15,6 +15,8 @@ export function TransactionsTable({
   onDeleteTransaction,
   onEditTransaction,
 }: TransactionsTableProps) {
+  const hasActions = Boolean(onDeleteTransaction || onEditTransaction);
+
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -40,9 +42,11 @@ export function TransactionsTable({
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
             </th>
-            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              A&ccedil;&otilde;es
-            </th>
+            {hasActions ? (
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                A&ccedil;&otilde;es
+              </th>
+            ) : null}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -65,8 +69,8 @@ export function TransactionsTable({
               <td
                 className={`px-4 py-3 text-right font-medium ${
                   transaction.type === "income"
-                    ? "text-emerald-400"
-                    : "text-red-400"
+                    ? "text-foreground"
+                    : "text-destructive"
                 }`}
               >
                 {transaction.type === "income" ? "+" : "-"}
@@ -75,24 +79,30 @@ export function TransactionsTable({
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
               </td>
-              <td className="px-4 py-3">
-                <div className="flex justify-end gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => onEditTransaction?.(transaction)}
-                  >
-                    Editar
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => onDeleteTransaction?.(transaction)}
-                  >
-                    Excluir
-                  </Button>
-                </div>
-              </td>
+              {hasActions ? (
+                <td className="px-4 py-3">
+                  <div className="flex justify-end gap-2">
+                    {onEditTransaction ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => onEditTransaction(transaction)}
+                      >
+                        Editar
+                      </Button>
+                    ) : null}
+                    {onDeleteTransaction ? (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => onDeleteTransaction(transaction)}
+                      >
+                        Excluir
+                      </Button>
+                    ) : null}
+                  </div>
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>

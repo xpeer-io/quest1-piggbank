@@ -81,10 +81,23 @@ describe("TransactionsTable", () => {
   });
 
   it("renders edit and delete actions for each transaction", () => {
-    render(<TransactionsTable transactions={[makeTransaction()]} />);
+    render(
+      <TransactionsTable
+        transactions={[makeTransaction()]}
+        onDeleteTransaction={vi.fn()}
+        onEditTransaction={vi.fn()}
+      />,
+    );
 
     expect(screen.getByRole("button", { name: "Editar" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Excluir" })).toBeTruthy();
+  });
+
+  it("does not render inert actions without callbacks", () => {
+    render(<TransactionsTable transactions={[makeTransaction()]} />);
+
+    expect(screen.queryByRole("button", { name: "Editar" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Excluir" })).toBeNull();
   });
 
   it("calls edit callback with the selected transaction", () => {

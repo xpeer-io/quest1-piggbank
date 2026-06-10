@@ -1,5 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from "@testing-library/react";
 
 import { DashboardClient } from "./DashboardClient";
 
@@ -16,24 +22,26 @@ const initialTransactions = [
 
 afterEach(() => {
   cleanup();
-  vi.restoreAllMocks();
 });
 
 describe("DashboardClient", () => {
   it("keeps a transaction when delete confirmation is cancelled", () => {
-    vi.spyOn(window, "confirm").mockReturnValue(false);
-
     render(<DashboardClient initialTransactions={initialTransactions} />);
     fireEvent.click(screen.getByRole("button", { name: "Excluir" }));
+    fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
 
     expect(screen.getByText("Assinatura Acme")).toBeTruthy();
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 
   it("removes a transaction when delete confirmation is accepted", () => {
-    vi.spyOn(window, "confirm").mockReturnValue(true);
-
     render(<DashboardClient initialTransactions={initialTransactions} />);
     fireEvent.click(screen.getByRole("button", { name: "Excluir" }));
+    fireEvent.click(
+      within(screen.getByRole("dialog")).getByRole("button", {
+        name: "Excluir",
+      }),
+    );
 
     expect(screen.queryByText("Assinatura Acme")).toBeNull();
     expect(screen.getByText(/Nenhuma transa/)).toBeTruthy();

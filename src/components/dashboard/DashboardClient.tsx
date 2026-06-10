@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { DeleteTransactionDialog } from "@/components/dashboard/DeleteTransactionDialog";
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { EditTransactionModal } from "@/components/dashboard/EditTransactionModal";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
@@ -38,21 +39,20 @@ export function DashboardClient({
   );
   const [editingTransaction, setEditingTransaction] =
     useState<Transaction | null>(null);
+  const [deletingTransaction, setDeletingTransaction] =
+    useState<Transaction | null>(null);
 
   const metrics = useMemo(() => computeMetrics(transactions), [transactions]);
 
-  function handleDeleteTransaction(transaction: Transaction) {
-    const shouldDelete = window.confirm(
-      `Excluir a transacao "${transaction.description}"?`,
-    );
-
-    if (!shouldDelete) {
+  function handleConfirmDeleteTransaction() {
+    if (!deletingTransaction) {
       return;
     }
 
     setTransactions((currentTransactions) =>
-      currentTransactions.filter((item) => item.id !== transaction.id),
+      currentTransactions.filter((item) => item.id !== deletingTransaction.id),
     );
+    setDeletingTransaction(null);
   }
 
   function handleSaveTransaction(updatedTransaction: Transaction) {
@@ -108,7 +108,7 @@ export function DashboardClient({
           </h2>
           <TransactionsTable
             transactions={transactions}
-            onDeleteTransaction={handleDeleteTransaction}
+            onDeleteTransaction={setDeletingTransaction}
             onEditTransaction={setEditingTransaction}
           />
         </div>
@@ -118,6 +118,11 @@ export function DashboardClient({
         transaction={editingTransaction}
         onClose={() => setEditingTransaction(null)}
         onSave={handleSaveTransaction}
+      />
+      <DeleteTransactionDialog
+        transaction={deletingTransaction}
+        onCancel={() => setDeletingTransaction(null)}
+        onConfirm={handleConfirmDeleteTransaction}
       />
     </div>
   );
