@@ -1,5 +1,7 @@
 import {
   format,
+  parse,
+  parseISO,
   subDays,
   isAfter,
   isBefore,
@@ -19,6 +21,14 @@ export function formatDisplayDate(date: Date): string {
 
 export function formatUrlDate(date: Date): string {
   return format(date, DATE_URL_FORMAT);
+}
+
+export function parseUrlDate(value: string): Date {
+  return parse(value, DATE_URL_FORMAT, new Date(0));
+}
+
+export function parseSerializedDate(value: string): Date {
+  return parseISO(value);
 }
 
 export function getDefaultDateRange(): DateRange {

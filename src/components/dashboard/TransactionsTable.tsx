@@ -1,11 +1,22 @@
+"use client";
+
 import type { Transaction } from "@/types";
 import { formatDisplayDate } from "@/lib/date";
+import { Button } from "@/components/ui/button";
 
 type TransactionsTableProps = {
   transactions: Transaction[];
+  onDeleteTransaction?: (transaction: Transaction) => void;
+  onEditTransaction?: (transaction: Transaction) => void;
 };
 
-export function TransactionsTable({ transactions }: TransactionsTableProps) {
+export function TransactionsTable({
+  transactions,
+  onDeleteTransaction,
+  onEditTransaction,
+}: TransactionsTableProps) {
+  const hasActions = Boolean(onDeleteTransaction || onEditTransaction);
+
   if (transactions.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
@@ -15,7 +26,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-border bg-card">
+    <div className="overflow-x-auto rounded-lg border border-border bg-card">
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border">
@@ -31,6 +42,11 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
             <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Valor
             </th>
+            {hasActions ? (
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                A&ccedil;&otilde;es
+              </th>
+            ) : null}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -53,8 +69,8 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
               <td
                 className={`px-4 py-3 text-right font-medium ${
                   transaction.type === "income"
-                    ? "text-emerald-400"
-                    : "text-red-400"
+                    ? "text-foreground"
+                    : "text-destructive"
                 }`}
               >
                 {transaction.type === "income" ? "+" : "-"}
@@ -63,6 +79,30 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
                   currency: "BRL",
                 }).format(Math.abs(transaction.amount))}
               </td>
+              {hasActions ? (
+                <td className="px-4 py-3">
+                  <div className="flex justify-end gap-2">
+                    {onEditTransaction ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => onEditTransaction(transaction)}
+                      >
+                        Editar
+                      </Button>
+                    ) : null}
+                    {onDeleteTransaction ? (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => onDeleteTransaction(transaction)}
+                      >
+                        Excluir
+                      </Button>
+                    ) : null}
+                  </div>
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>
