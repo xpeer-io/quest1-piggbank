@@ -8,7 +8,7 @@ type TransactionsTableProps = {
 export function TransactionsTable({ transactions }: TransactionsTableProps) {
   if (transactions.length === 0) {
     return (
-      <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
+      <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-foreground">
         Nenhuma transação encontrada para o período selecionado.
       </div>
     );
@@ -19,16 +19,16 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border">
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">
               Data
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">
               Descrição
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-foreground">
               Categoria
             </th>
-            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wide text-foreground">
               Valor
             </th>
           </tr>
@@ -39,7 +39,7 @@ export function TransactionsTable({ transactions }: TransactionsTableProps) {
               key={transaction.id}
               className="transition-colors hover:bg-accent/30"
             >
-              <td className="px-4 py-3 text-muted-foreground">
+              <td className="px-4 py-3 text-foreground">
                 {formatDisplayDate(transaction.date)}
               </td>
               <td className="px-4 py-3 text-foreground">

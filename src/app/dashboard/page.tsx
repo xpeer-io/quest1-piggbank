@@ -1,7 +1,9 @@
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
+import { NewTransactionButton } from "@/components/dashboard/NewTransactionButton";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { getDefaultDateRange } from "@/lib/date";
+import { ExportCsvButton } from "@/components/dashboard/ExportCsvButton";
 
 export default async function DashboardPage() {
   const filters = { dateRange: getDefaultDateRange() };
@@ -33,7 +35,7 @@ export default async function DashboardPage() {
             </p>
           </div>
           {/* TODO: substituir pelo DateRangeFilter — piggbank-142 */}
-          <div className="rounded-md border border-border bg-card px-4 py-2 text-sm text-muted-foreground">
+          <div className="rounded-md border border-border bg-card px-4 py-2 text-sm text-foreground">
             Últimos 30 dias
           </div>
         </div>
@@ -45,9 +47,15 @@ export default async function DashboardPage() {
         </div>
 
         <div>
-          <h2 className="mb-4 text-base font-medium text-foreground">
-            Transações recentes
-          </h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-base font-medium text-foreground">
+              Transações recentes
+            </h2>
+            <div className="flex items-center gap-2">
+              <ExportCsvButton transactions={transactions} />
+              <NewTransactionButton />
+            </div>
+          </div>
           <TransactionsTable transactions={transactions} />
         </div>
       </main>
