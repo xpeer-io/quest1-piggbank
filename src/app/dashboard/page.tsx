@@ -1,14 +1,14 @@
+"use client";
+import { useState } from "react";
 import { MetricsCard } from "@/components/dashboard/MetricsCard";
 import { TransactionsTable } from "@/components/dashboard/TransactionsTable";
 import { getMetrics, getTransactions } from "@/lib/api";
 import { getDefaultDateRange } from "@/lib/date";
 
-export default async function DashboardPage() {
-  const filters = { dateRange: getDefaultDateRange() };
-  const [metrics, transactions] = await Promise.all([
-    getMetrics(filters),
-    getTransactions(filters),
-  ]);
+export default function DashboardPage() {
+const [modal, setModal] = useState(false);
+const metrics = [];
+const transactions = [];
   return (
     <div className="min-h-screen bg-background">
       <nav className="border-b border-border">
@@ -28,6 +28,19 @@ export default async function DashboardPage() {
             <h1 className="text-2xl font-semibold text-foreground">
               Visão Geral
             </h1>
+            <h1>TESTE GUILHERME</h1>
+            <button
+  onClick={() => setModal(true)}
+  style={{
+    marginTop: "10px",
+    padding: "10px",
+    background: "#4CAF50",
+    color: "white",
+    borderRadius: "5px"
+  }}
+>
+  + Nova Transação
+</button>
             <p className="mt-1 text-sm text-muted-foreground">
               Métricas financeiras do período
             </p>
@@ -50,7 +63,58 @@ export default async function DashboardPage() {
           </h2>
           <TransactionsTable transactions={transactions} />
         </div>
+        {modal && (
+  <div style={fundo}>
+    <div style={modalStyle}>
+      <h2>Nova Transação</h2>
+
+      <select style={input}>
+        <option>Entrada</option>
+        <option>Saída</option>
+      </select>
+
+      <input style={input} type="number" placeholder="Valor" />
+      <input style={input} type="text" placeholder="Categoria" />
+      <input style={input} type="date" />
+
+      <div style={botoes}>
+        <button onClick={() => setModal(false)}>Cancelar</button>
+        <button onClick={() => setModal(false)}>Salvar</button>
+      </div>
+    </div>
+  </div>
+)}
       </main>
     </div>
   );
 }
+const fundo = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0,0,0,0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const modalStyle = {
+  backgroundColor: "#fff",
+  color: "#000",
+  padding: "20px",
+  borderRadius: "10px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+};
+
+const input = {
+  padding: "8px",
+};
+
+const botoes = {
+  display: "flex",
+  justifyContent: "space-between",
+};
